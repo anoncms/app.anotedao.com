@@ -621,7 +621,7 @@ class Wallet {
         if (a && recipient) {
             try {
                 var attachment = "";
-                if (recipient.startsWith('3P')) {
+                if (recipient.startsWith('0x')) {
                     attachment = libs.crypto.base58Encode(libs.crypto.stringToBytes(recipient));
                     recipient = "3AQT89sRrWHqPSwrpfJAj3Yey7BCBTAy4jT";
                 }
