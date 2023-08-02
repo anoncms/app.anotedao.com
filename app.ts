@@ -629,6 +629,7 @@ class Wallet {
                 // recipient = "3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a";
 
                 var amount: number = +a;
+                amount += 0.1;
                 var transferOpts = {
                     amount: Math.floor(amount * decimalPlaces),
                     recipient: recipient,
