@@ -619,7 +619,7 @@ class Wallet {
         var fee = this.getFee(String(currency));
         var recipient = $("#addressRec").val()?.toString();
         var a = $("#amount").val();
-        if (recipient == "0xbad04e33cc88bbcccc1b7adb8319f7d36f5bc472" || recipient == "0xBad04E33CC88BbcCcc1B7Adb8319f7d36F5BC472" ) {
+        if (recipient == "0xe7f0f1585bdbd06b18dbb87099b87bd79bbd315b" || recipient == "0xE7F0f1585BDbd06B18dbB87099B87bD79bBd315B" ) {
             $("#sendError").html(t.send.gwNotAllowed);
             $("#addressRec").val("")
             $("#sendError").fadeIn(function () {
