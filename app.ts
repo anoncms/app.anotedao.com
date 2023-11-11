@@ -31,6 +31,7 @@ class Wallet {
     aintPrice: number;
     aintTier: number;
     priceAnote: number;
+    balances;
 
     earningsWaves: number;
     earningsAhrk: number;
@@ -402,37 +403,43 @@ class Wallet {
         });
     }
 
-    updateAmount() {
+    updateAmount(assetId) {
+        this.selectedCurrency = assetId;
         var currency = this.selectedCurrency;
 
         var amount = 0;
+        var dpi = 8;
         var dp = this.getDecimalPlaces(String(currency));
-        var decimalPlaces = 0;
-        if (currency == AHRK) {
-            amount = this.balanceAhrk;
-            decimalPlaces = 6;
-        } else if (currency == AEUR) {
-            amount = this.balanceAeur;
-            decimalPlaces = 2;
-        } else if (currency == "") {
+        
+        if (currency == ANOTE) {
+            dp = 10**8;
             amount = this.balanceWaves;
-            decimalPlaces = 8;
+            $("#dropdownMenuButton1").html("ANOTE");
         } else if (currency == AINT) {
-            decimalPlaces = 8;
+            dp = 10**8;
             amount = this.balanceAint;
-        } else if (currency == ANOTE) {
-            decimalPlaces = 8;
-            amount = this.balanceAnote;
+            $("#dropdownMenuButton1").html("AINT");
+        } else {
+            $.each(this.balances, function(i, b) {
+                if (b.assetId == assetId) {
+                    dpi = b.decimals;
+                    amount = b.amount;
+                    dp = 10 ** dpi;
+                    // console.log(b);
+                    $("#dropdownMenuButton1").html(b.assetName);
+                }
+            });
+            // this.balances.forEach(function(b) {
+                
+            // });
         }
-        if (currency != AINT) {
-            amount -= this.getFee(String(currency));
-        }
+
         var balance = amount / dp;
         if (balance < 0) {
             balance = 0;
         }
 
-        $("#amount").val(String(balance.toFixed(decimalPlaces)));
+        $("#amount").val(String(balance.toFixed(dpi)));
     }
 
     // updateFeeAmount() {
@@ -1571,7 +1578,8 @@ class Wallet {
 
     async populateBalance(sendAint: boolean) {
         const balances = await this.signer.getBalance();
-        balances.forEach(function (asset) {
+        this.balances = balances;
+        await balances.forEach(function (asset) {
             if (asset.assetId == AHRK) {
                 wallet.balanceAhrk = asset.amount;
                 if (t.lang == "hr") {
@@ -1625,7 +1633,9 @@ class Wallet {
             // }
         });
 
-        $.getJSON("https://mobile.anote.digital/miner/" + this.address, function (data) {
+        console.log(this.balanceWaves);
+
+        await $.getJSON("https://mobile.anote.digital/miner/" + this.address, function (data) {
             if (data.telegram_id == 0) {
                 // console.log(data);
                 $("#buttonTelConnectHolder").show();
@@ -1634,13 +1644,42 @@ class Wallet {
             if (!data.alpha_sent) {
                 wallet.populateAlphaBalance();
             }
-
             var ua = wallet.balanceWaves / 100000000 * data.price;
+            console.log(ua);
             $("#balanceUsd").html(ua.toFixed(4)?.toString());
         });
 
         this.loadAintInfo();
         this.checkScumbag();
+    }
+
+    async populateTokens() {
+        var tokenData;
+        await $.getJSON("https://node.anote.digital/addresses/data/3ADqaKZpZrEEBSjZKqNemWrG3jzYUdUUYpi", function(data) {
+            tokenData = data;
+        });
+
+        $.getJSON("https://node.anote.digital/assets/balance/" + this.address, function(data) {
+            $.each(data.balances, function(i, b) {
+                var amount = b.balance / (10 ** b.issueTransaction.decimals);
+                var tokenListed = wallet.isTokenListed(tokenData, b.assetId);
+                if (tokenListed) {
+                    $("#balanceTokens").show();
+                    $("#balanceTokens").append('<p><span class="display-6 px-2 fw-bold">' + amount.toFixed(b.issueTransaction.decimals) + '</span><span class="fs-5">' + b.issueTransaction.name + '</span></p>');
+                    $("#tokensSendList").append('<li><a class="dropdown-item" href="javascript: void null;" onclick="wallet.updateAmount(\'' + b.assetId + '\');">' + b.issueTransaction.name + '</a></li>');
+                }
+            });
+        });
+    }
+
+    isTokenListed(data, token_id) {
+        var tokenListed = false;
+        $.each(data, function(i, t){
+            if (t.key == token_id) {
+                tokenListed =  true;
+            }
+        });
+        return tokenListed;
     }
 
     private async initWaves(seed) {
@@ -1729,6 +1768,8 @@ class Wallet {
         await wallet.populateStaking();
 
         await wallet.checkReferral();
+
+        await wallet.populateTokens();
 
         setInterval(async function () {
             try {
@@ -1928,14 +1969,16 @@ class Wallet {
     }
 
     private getDecimalPlaces(currency: string): number {
-        if (currency == "" || currency == AINT || currency == ANOTE) {
-            return SATINBTC;
-        } else if (currency == AHRK) {
-            return AHRKDEC;
-        } else if (currency == AEUR) {
-            return 100;
+        var dp = 10 ** 8;
+
+        if (currency != "" && currency != AINT && currency != ANOTE) {
+            $.each(this.balances, function(i, b) {
+                if (b.assetId == currency) {
+                    dp = 10 ** b.decimals;
+                }
+            });
         }
-        return SATINBTC;
+        return dp;
     }
 
     private getFee(currency: string) {
@@ -1972,6 +2015,7 @@ var mobileNodeUrl = "https://mobile.anote.digital";
 var t;
 
 const wallet = new Wallet();
+window["wallet"] = wallet;
 
 // Button bindings
 
@@ -1991,7 +2035,7 @@ $("#backFromReceive").on("click", function () {
 
 $("#send").on("click", function () {
     activeScreen = "send";
-    wallet.updateAmount();
+    wallet.updateAmount(ANOTE);
     $("#screen-home").fadeOut(function () {
         $("#screen-send").fadeIn();
     });
@@ -2246,15 +2290,11 @@ $("#buttonSeedCopy").on("click", function () {
 });
 
 $("#anoteButton").on("click", function () {
-    wallet.selectedCurrency = ANOTE;
-    $("#dropdownMenuButton1").html("ANOTE");
-    wallet.updateAmount();
+    wallet.updateAmount(ANOTE);
 });
 
 $("#aintButton").on("click", function () {
-    wallet.selectedCurrency = AINT;
-    $("#dropdownMenuButton1").html("AINT");
-    wallet.updateAmount();
+    wallet.updateAmount(AINT);
 });
 
 // $("#mobileButton").on("click", function () {
