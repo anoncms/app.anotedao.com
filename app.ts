@@ -665,6 +665,7 @@ class Wallet {
             if (a && recipient) {
                 try {
                     var amount: number = +a;
+                    var gateway = false;
     
                     var attachment = "";
                     if (recipient.startsWith('0x')) {
@@ -680,27 +681,38 @@ class Wallet {
                         //         $("#sendError").fadeOut();
                         //     }, 2000);
                         // });
+                        gateway = true;
                     }
                     // recipient = "3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a";
-                    var transferOpts = {
-                        amount: Math.floor(amount * decimalPlaces),
-                        recipient: recipient,
-                        fee: fee,
-                        attachment: attachment
+
+                    if (gateway && currency != AINT) {
+                        $("#sendError").html("Only ANOTE can currently be sent to BSC chain.");
+                        $("#sendError").fadeIn(function () {
+                            setTimeout(function () {
+                                $("#sendError").fadeOut();
+                            }, 2000);
+                        });
+                    } else {
+                        var transferOpts = {
+                            amount: Math.floor(amount * decimalPlaces),
+                            recipient: recipient,
+                            fee: fee,
+                            attachment: attachment
+                        }
+        
+                        if (currency != "") {
+                            transferOpts["assetId"] = currency;
+                        }
+        
+                        await this.signer.transfer(transferOpts).broadcast();
+                        $("#sendSuccess").fadeIn(function () {
+                            setTimeout(function () {
+                                $("#sendSuccess").fadeOut();
+                                $("#amount").val("");
+                                $("#addressRec").val("");
+                            }, 2000);
+                        });
                     }
-    
-                    if (currency != "") {
-                        transferOpts["assetId"] = currency;
-                    }
-    
-                    await this.signer.transfer(transferOpts).broadcast();
-                    $("#sendSuccess").fadeIn(function () {
-                        setTimeout(function () {
-                            $("#sendSuccess").fadeOut();
-                            $("#amount").val("");
-                            $("#addressRec").val("");
-                        }, 2000);
-                    });
                 } catch (e: any) {
                     if (e.error == 112) {
                         console.log(e);
