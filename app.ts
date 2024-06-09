@@ -1588,7 +1588,7 @@ class Wallet {
                 }, 500);
             });
 
-            $.getJSON("https://mobile.anote.digital/new-user/" + this.address + "/" + referral, function (data) {
+            $.getJSON("https://mobile.anotedao.com/new-user/" + this.address + "/" + referral, function (data) {
                 // console.log(data);
             });
         }
@@ -1653,7 +1653,7 @@ class Wallet {
 
         // console.log(this.balanceWaves);
 
-        await $.getJSON("https://mobile.anote.digital/miner/" + this.address, function (data) {
+        await $.getJSON("https://mobile.anotedao.com/miner/" + this.address, function (data) {
             if (data.telegram_id == 0) {
                 // console.log(data);
                 $("#buttonTelConnectHolder").show();
@@ -2033,7 +2033,7 @@ const AINTADDRESS = "3PBmmxKhFcDhb8PrDdCdvw2iGMPnp7VuwPy"
 var activeScreen = "home";
 var earningsScript = "https://aint.kriptokuna.com";
 // var mobileNodeUrl = "http://localhost:5001";
-var mobileNodeUrl = "https://mobile.anote.digital";
+var mobileNodeUrl = "https://mobile.anotedao.com";
 var t;
 
 const wallet = new Wallet();
