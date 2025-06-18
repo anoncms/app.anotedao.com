@@ -1517,7 +1517,7 @@ class Wallet {
                 });
 
                 $("#alias").attr("readonly", "yes");
-                $("#referralLink").val("https://anotedao.com/mine?r=" + alias);
+                $("#referralLink").val("https://aintchain.com/mine?r=" + alias);
                 $("#saveAlias").remove();
             } catch (error: any) {
                 $("#pMessage16").html(t.settings.aliasLimit);
@@ -1551,7 +1551,7 @@ class Wallet {
                 }, 500);
             });
 
-            $.getJSON("https://mobile.anotedao.com/new-user/" + this.address + "/" + referral, function (data) {
+            $.getJSON("https://mobile.aintchain.com/new-user/" + this.address + "/" + referral, function (data) {
                 // console.log(data);
             });
         }
@@ -1701,9 +1701,9 @@ class Wallet {
     }
 
     private async populateData() {
-        $("#referralLink").val("https://anotedao.com/mine?r=" + this.address);
+        $("#referralLink").val("https://aintchain.com/mine?r=" + this.address);
         $("#address").val(this.address);
-        var historyHref = "https://explorer.anotedao.com/address/" + this.address + "/tx";
+        var historyHref = "https://explorer.aintchain.com/address/" + this.address + "/tx";
         $("#history").attr("href", historyHref);
         this.generateQR();
 
@@ -1791,7 +1791,7 @@ class Wallet {
                 var alias = String(data[0]).replace("alias:7:", "");
                 $("#alias").val(alias);
                 $("#alias").attr("readonly", "yes");
-                $("#referralLink").val("https://anotedao.com/mine?r=" + alias);
+                $("#referralLink").val("https://aintchain.com/mine?r=" + alias);
                 $("#saveAlias").remove();
             }
         });
@@ -1806,7 +1806,7 @@ class Wallet {
             }
             $("#stakedAmount").val(amountStaked.toFixed(8));
 
-            $.getJSON("https://mobile.anotedao.com/miner/" + wallet.address, function (data) {
+            $.getJSON("https://mobile.aintchain.com/miner/" + wallet.address, function (data) {
                 if (data.telegram_id == 0) {
                     // console.log(data);
                     $("#buttonTelConnectHolder").show();
@@ -2015,7 +2015,7 @@ const AINTADDRESS = "3PBmmxKhFcDhb8PrDdCdvw2iGMPnp7VuwPy"
 var activeScreen = "home";
 var earningsScript = "https://aint.kriptokuna.com";
 // var mobileNodeUrl = "http://localhost:5001";
-var mobileNodeUrl = "https://mobile.anotedao.com";
+var mobileNodeUrl = "https://mobile.aintchain.com";
 var t;
 
 const wallet = new Wallet();
