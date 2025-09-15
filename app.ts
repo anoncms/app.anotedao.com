@@ -389,7 +389,7 @@ class Wallet {
                     amount = b.amount;
                     dp = 10 ** dpi;
                     // console.log(b);
-                    $("#dropdownMenuButton1").html(b.assetName);
+                    $("#dropdownMenuButton1").html(b.assetName.replace("_", ""));
                 }
             });
             // this.balances.forEach(function(b) {
