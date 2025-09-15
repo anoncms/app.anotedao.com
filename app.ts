@@ -368,7 +368,7 @@ class Wallet {
 
     updateAmount(assetId) {
         this.selectedCurrency = assetId;
-        var currency = this.selectedCurrency;
+        var currency = this.selectedCurrency.replace("_", "");
 
         var amount = 0;
         var dpi = 8;
